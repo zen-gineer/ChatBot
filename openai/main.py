@@ -6,13 +6,16 @@ from fastapi import FastAPI, Form, Request
 from typing import Annotated
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from mangum import Mangum
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-
-openai = OpenAI(api_key=api_key)
 
 app = FastAPI()
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+handler = Mangum(app)
+openai = OpenAI(api_key=api_key)
+
+
 templates = Jinja2Templates(directory="templates")
 chat_response = []
 
